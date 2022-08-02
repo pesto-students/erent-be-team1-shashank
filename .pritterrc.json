@@ -2,6 +2,7 @@
   "useTabs": false,
   "tabWidth": 2,
   "printWidth": 100,
-  "trailingComma": "es5",
-  "proseWrap": "always"
+  "trailingComma": "none",
+  "proseWrap": "always",
+  "prettier.trailingComma": "none"
 }
