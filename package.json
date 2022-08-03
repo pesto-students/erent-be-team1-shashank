@@ -13,6 +13,7 @@
     "lint:fix": "eslint --fix src/*",
     "prepare": "husky install",
     "postinstall": "husky install",
+    "preinstall": "chmod a+x .husky/commit-msg",
     "commit": "cz"
   },
   "keywords": [

@@ -109,7 +109,7 @@ dist
 .DS_Store
 package-lock.json
 *.lock
-config/
+envs/
 
 .vscode/snipsnap*
 
