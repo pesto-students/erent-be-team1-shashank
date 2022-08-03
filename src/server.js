@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
 import path from 'path';
 
 import colors from 'colors';
@@ -12,8 +14,11 @@ import expressRateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 
 // Custom module
-import errorHandler from './middlewares/error';
-import configs from './config';
+import errorHandler from 'middlewares/error';
+import configs from 'config';
+
+// Require db file
+import connectDB from 'config/db';
 
 // Initialize express
 const app = express();
@@ -38,7 +43,7 @@ app.use(mongoSanitize());
 app.use(helmet());
 const limiter = expressRateLimit({
   windowMs: 10 * 60 * 1000, // 10 mins
-  max: 100,
+  max: 100
 });
 app.use(limiter);
 app.use(hpp()); // prevent http param pollution
@@ -48,7 +53,7 @@ app.use(cors());
 app.use(
   fileUpload({
     useTempFiles: true,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max
+    limits: { fileSize: 5 * 1024 * 1024 } // 5 MB max
   })
 );
 
@@ -63,6 +68,9 @@ app.use(errorHandler);
 // Start Server
 (async () => {
   try {
+    // Connect Database
+    await connectDB();
+
     const PORT = configs.port || 8080;
     const server = app.listen(PORT, () => {
       console.log(
