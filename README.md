@@ -3,7 +3,7 @@
 Process to run in development mode
 
 ```
-Create config folder in root folder
+Create `envs` folder in root folder
 inside of this folder, create dev.env file
 
 npm i
