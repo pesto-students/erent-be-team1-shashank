@@ -4,15 +4,16 @@
   "description": "erent backend server",
   "main": "server.js",
   "scripts": {
-    "start": "env-cmd -f ./config/prod.env node dist/server.js",
+    "start": "env-cmd -f ./envs/prod.env node dist/server.js",
     "prestart": "npm run build",
-    "dev": "env-cmd -f ./config/dev.env nodemon --exec babel-node src/server.js",
+    "dev": "env-cmd -f ./envs/dev.env nodemon --exec babel-node src/server.js",
     "build": "npm run clean && babel src --out-dir dist --copy-files",
     "clean": "rm -rf dist",
     "lint": "eslint src/*",
     "lint:fix": "eslint --fix src/*",
     "prepare": "husky install",
     "postinstall": "husky install",
+    "preinstall": "chmod a+x .husky/commit-msg",
     "commit": "cz"
   },
   "keywords": [
@@ -32,6 +33,7 @@
     "@commitlint/cli": "17.0.3",
     "@commitlint/config-conventional": "17.0.3",
     "babel-eslint": "10.1.0",
+    "babel-plugin-module-resolver": "4.1.0",
     "commitizen": "4.2.5",
     "cz-conventional-changelog": "3.3.0",
     "dotenv": "16.0.1",
