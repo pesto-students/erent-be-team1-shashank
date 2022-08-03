@@ -4,9 +4,9 @@
   "description": "erent backend server",
   "main": "server.js",
   "scripts": {
-    "start": "env-cmd -f ./config/prod.env node dist/server.js",
+    "start": "env-cmd -f ./envs/prod.env node dist/server.js",
     "prestart": "npm run build",
-    "dev": "env-cmd -f ./config/dev.env nodemon --exec babel-node src/server.js",
+    "dev": "env-cmd -f ./envs/dev.env nodemon --exec babel-node src/server.js",
     "build": "npm run clean && babel src --out-dir dist --copy-files",
     "clean": "rm -rf dist",
     "lint": "eslint src/*",
