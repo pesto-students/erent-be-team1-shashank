@@ -4,6 +4,13 @@ module.exports = {
     commonjs: true,
     es6: true
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: ['src']
+      }
+    }
+  },
   extends: ['airbnb-base'],
   globals: {
     Atomics: 'readonly',
