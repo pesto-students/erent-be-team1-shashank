@@ -13,12 +13,15 @@ import cors from 'cors';
 import expressRateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 
+// Router v1
+import rootRouterV1 from 'routes/v1';
+
 // Custom module
 import errorHandler from 'middlewares/error';
-import configs from 'config';
+import configs from 'configs';
 
 // Require db file
-import connectDB from 'config/db';
+import connectDB from 'configs/db';
 
 // Initialize express
 const app = express();
@@ -61,6 +64,9 @@ app.use(
 app.get('/', (req, res) => {
   res.sendFile('index.html');
 });
+
+// Root Router
+app.use('/api/v1', rootRouterV1);
 
 // Error handler middleware
 app.use(errorHandler);
