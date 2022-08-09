@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import status from 'http-status';
 
-import ErrorResponse from '../utils/errorResponse';
+import ErrorResponse from 'utils/errorResponse';
 
 const errorHandler = (err, _, res, next) => {
   let error = { ...err };
@@ -28,7 +28,7 @@ const errorHandler = (err, _, res, next) => {
 
   res.status(error.statusCode || status.INTERNAL_SERVER_ERROR).json({
     success: false,
-    error: error.message || 'Server Error',
+    error: error.message || 'Server Error'
   });
 };
 

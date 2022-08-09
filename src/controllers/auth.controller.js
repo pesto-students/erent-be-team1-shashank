@@ -1,34 +1,40 @@
+/* eslint-disable function-paren-newline */
+import httpStatus from 'http-status';
+
 import asyncHandler from 'middlewares/asyncMiddleware';
-import magicAdmin from 'utils/magicSdk';
+import ErrorResponse from 'utils/errorResponse';
+import admin from 'utils/firebase';
+import AuthServices from 'services/auth.services';
 
 /*
  * @desc       Login/Signup user
- * @route      POST /api/v1/auth/login_signup
+ * @route      POST /api/v1/auth/login
  * @access     Public
  */
 export const login = asyncHandler(async (req, res) => {
-  const { role } = req.body;
-  const { authorization: DIDToken } = req.headers;
+  const token = req.headers.authorization.split(' ')[1];
+  const decodedValue = await admin.auth().verifyIdToken(token);
+  if (!decodedValue) {
+    throw new ErrorResponse('Invalid Authentication', httpStatus.UNAUTHORIZED);
+  }
 
-  console.log('DIDToken', DIDToken);
+  const response = await AuthServices.googleLogin(decodedValue);
 
-  const metadata = await magicAdmin.users.getMetadataByToken(DIDToken);
-  console.log(role);
-  console.log(metadata);
+  if (response.error) {
+    throw new ErrorResponse(response.error, httpStatus.BAD_REQUEST);
+  }
+
   return res.json({
-    success: true
+    success: true,
+    token: response.token
   });
 });
 
 /*
- * @desc       Register user
- * @route      POST /api/v1/auth/register
+ * @desc       Public
+ * @route      POST /api/v1/auth/logout
  * @access     Public
  */
-export const register = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  console.log(req.headers);
-  return res.json({
-    success: true
-  });
+export const logout = asyncHandler(async (req) => {
+  req.logout();
 });

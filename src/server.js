@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import path from 'path';
 
-import colors from 'colors';
+import 'colors';
 import express from 'express';
 
 import fileUpload from 'express-fileupload';
@@ -12,6 +12,7 @@ import hpp from 'hpp';
 import cors from 'cors';
 import expressRateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
+import cookieSession from 'cookie-session';
 
 // Router v1
 import rootRouterV1 from 'routes/v1';
@@ -40,6 +41,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Cookie middleware
 app.use(cookieParser());
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['test'],
+    resave: true,
+    saveUninitialized: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  })
+);
 
 // Security middlewares
 app.use(mongoSanitize());
@@ -77,7 +87,7 @@ app.use(errorHandler);
     // Connect Database
     await connectDB();
 
-    const PORT = configs.port || 8080;
+    const PORT = configs.port;
     const server = app.listen(PORT, () => {
       console.log(
         `Server Running in ${configs.env} mode on port ${PORT}`.yellow.bold
