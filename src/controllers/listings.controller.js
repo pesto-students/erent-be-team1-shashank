@@ -1,5 +1,9 @@
+import mongose from 'mongoose';
+
 import asyncHandler from 'middlewares/asyncMiddleware';
 import Listings from 'models/Listings';
+
+const { ObjectId } = mongose.Types;
 
 /*
  * @desc       Create Listing
@@ -19,9 +23,27 @@ export const createListing = asyncHandler(async (req, res) => {
 
 /*
  * @desc       Get All Listings
- * @route      POST /api/v1/listings
+ * @route      GET /api/v1/listings
  * @access     Public
  */
 export const getAllListings = asyncHandler(async (req, res) => {
   res.status(200).json(res.advancedResults);
+});
+
+/*
+ * @desc       Get Owner Listings
+ * @route      GET /api/v1/listings/owner
+ * @access     Private
+ */
+export const getOwnerListings = asyncHandler(async (req, res) => {
+  const user_id = req.user[0]._id;
+
+  const allListings = await Listings.find({
+    user: ObjectId(user_id)
+  });
+
+  return res.json({
+    success: true,
+    data: allListings
+  });
 });
