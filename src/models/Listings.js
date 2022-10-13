@@ -96,6 +96,7 @@ const ListingSchema = new mongoose.Schema(
       type: Date,
       default: Date.now
     },
+    isPremium: false,
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',

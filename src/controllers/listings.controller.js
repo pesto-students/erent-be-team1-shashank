@@ -9,7 +9,7 @@ import Listings from 'models/Listings';
 export const createListing = asyncHandler(async (req, res) => {
   // Add user to req.body
   req.body.user = req.user[0]._id;
-
+  req.body.isPremium = false;
   const createdListings = await Listings.create(req.body);
   return res.json({
     success: true,
@@ -17,4 +17,11 @@ export const createListing = asyncHandler(async (req, res) => {
   });
 });
 
-export const test = '';
+/*
+ * @desc       Get All Listings
+ * @route      POST /api/v1/listings
+ * @access     Public
+ */
+export const getAllListings = asyncHandler(async (req, res) => {
+  res.status(200).json(res.advancedResults);
+});
