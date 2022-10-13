@@ -68,7 +68,8 @@
     "jsonwebtoken": "8.5.1",
     "lodash": "4.17.21",
     "mongoose": "6.5.0",
-    "nodemailer": "6.7.7"
+    "nodemailer": "6.7.7",
+    "slugify": "1.6.5"
   },
   "config": {
     "commitizen": {
