@@ -2,6 +2,7 @@ import mongose from 'mongoose';
 
 import asyncHandler from 'middlewares/asyncMiddleware';
 import Listings from 'models/Listings';
+import ErrorResponse from 'utils/errorResponse';
 
 const { ObjectId } = mongose.Types;
 
@@ -45,5 +46,56 @@ export const getOwnerListings = asyncHandler(async (req, res) => {
   return res.json({
     success: true,
     data: allListings
+  });
+});
+
+/*
+ * @desc       update listing details
+ * @route      PUT /api/v1/listings/:slug
+ * @access     Private
+ */
+export const updateListing = asyncHandler(async (req, res, next) => {
+  const user_id = req.user[0]._id;
+  const { slug } = req.params;
+
+  const findListing = await Listings.findOne({ slug, user: ObjectId(user_id) });
+
+  if (!findListing) {
+    return next(new ErrorResponse('No Listing found', 404));
+  }
+
+  delete req.body.title;
+
+  await Listings.findByIdAndUpdate(findListing._id, req.body, {
+    new: false,
+    runValidators: true
+  });
+
+  return res.json({
+    success: true,
+    message: 'Updated Successfully'
+  });
+});
+
+/*
+ * @desc       Delete listing
+ * @route      DELETE /api/v1/listings/:slug
+ * @access     Private
+ */
+export const deleteListing = asyncHandler(async (req, res, next) => {
+  const user_id = req.user[0]._id;
+  const { slug } = req.params;
+
+  const findListing = await Listings.findOne({ slug, user: ObjectId(user_id) });
+
+  if (!findListing) {
+    return next(new ErrorResponse('No Listing found', 404));
+  }
+
+  findListing.remove();
+
+  return res.json({
+    success: true,
+    message: 'Deleted Successfully'
   });
 });

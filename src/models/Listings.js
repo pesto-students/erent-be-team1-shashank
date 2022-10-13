@@ -9,7 +9,10 @@ const ListingSchema = new mongoose.Schema(
       required: [true, 'Please add a Title'],
       unique: true
     },
-    slug: String,
+    slug: {
+      type: String,
+      unique: true
+    },
     adType: {
       type: String,
       trim: true,

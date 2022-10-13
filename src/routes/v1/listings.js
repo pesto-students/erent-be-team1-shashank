@@ -6,8 +6,10 @@ import Listings from 'models/Listings';
 // Controllers
 import {
   createListing,
+  deleteListing,
   getAllListings,
-  getOwnerListings
+  getOwnerListings,
+  updateListing
 } from 'controllers/listings.controller';
 
 // Middlewares
@@ -22,5 +24,10 @@ router
   .get(advancedResults(Listings, 'user'), getAllListings);
 
 router.route('/owner').get(protect, getOwnerListings);
+
+router
+  .route('/:slug')
+  .put(protect, updateListing)
+  .delete(protect, deleteListing);
 
 export default router;
