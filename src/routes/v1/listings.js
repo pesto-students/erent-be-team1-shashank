@@ -8,6 +8,7 @@ import {
   createListing,
   deleteListing,
   getAllListings,
+  getListingDetails,
   getOwnerListings,
   updateListing
 } from 'controllers/listings.controller';
@@ -27,6 +28,7 @@ router.route('/owner').get(protect, getOwnerListings);
 
 router
   .route('/:slug')
+  .get(getListingDetails)
   .put(protect, updateListing)
   .delete(protect, deleteListing);
 

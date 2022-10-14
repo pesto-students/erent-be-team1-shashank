@@ -99,3 +99,25 @@ export const deleteListing = asyncHandler(async (req, res, next) => {
     message: 'Deleted Successfully'
   });
 });
+
+/*
+ * @desc       Get listing details
+ * @route      GET /api/v1/listings/:slug
+ * @access     Public
+ */
+export const getListingDetails = asyncHandler(async (req, res, next) => {
+  const { slug } = req.params;
+
+  const listingDetails = await Listings.findOne({
+    slug
+  }).populate('user');
+
+  if (!listingDetails) {
+    return next(new ErrorResponse('No Listing found', 404));
+  }
+
+  return res.json({
+    success: true,
+    data: listingDetails
+  });
+});
